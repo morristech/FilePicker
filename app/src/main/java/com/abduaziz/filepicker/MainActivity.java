@@ -1,11 +1,10 @@
 package com.abduaziz.filepicker;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.abduaziz.lib.FilePicker;
 
@@ -17,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     String TAG = "FilePicker";
 
     Button button;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        textView = (TextView) findViewById(R.id.textView);
+
     }
 
     void openFilePicker() {
@@ -38,11 +40,13 @@ public class MainActivity extends AppCompatActivity {
         filePicker.addOnFilesSelected(new FilePicker.OnFilesSelected() {
             @Override
             public void onFilesSelected(List<File> selectedFiles) {
+                String files = "Selected files: \n";
                 for (int i = 0; i < selectedFiles.size(); i++) {
-                    Log.d(TAG, "onFilesSelected: filePath = "+selectedFiles.get(i).getAbsolutePath());
+                    files += selectedFiles.get(i).getName() + "\n";
                 }
+                textView.setText(files);
             }
         });
-        filePicker.show(getSupportFragmentManager(),"FilePicker");
+        filePicker.show(getSupportFragmentManager(), "FilePicker");
     }
 }
